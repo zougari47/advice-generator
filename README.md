@@ -29,8 +29,8 @@ Users should be able to:
 
 ### Links
 
-- [Code Source]()
-- [Live Demo]()
+- [Code Source](https://github.com/zougari47/advice-generator)
+- [Live Demo](https://generate-advice.netlify.app/)
 
 ## My process
 
