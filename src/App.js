@@ -1,24 +1,57 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from 'react';
 
 function App() {
+  //max advice = 244;
+  const [quote, setQuote] = useState({
+    id: 0,
+    advice: 'SOMETHING WENT WRANG PLEASE TRY AGAIN !!'
+  });
+  const p = document.querySelector('#quote') || '';
+
+  // animation paragraph
+  try {
+    p.classList.remove('fade');
+    setTimeout(function () {
+      p.classList.add('fade');
+    }, 1000);
+  } catch (error) {}
+
+  function generateRandomID() {
+    return Math.floor(Math.random() * 243) + 1;
+  }
+
+  function getAdvice() {
+    // animation
+    const btn = document.querySelector('button');
+    btn.classList.remove('active');
+
+    setTimeout(function () {
+      btn.classList.add('active');
+
+      // get advice
+      fetch(`https://api.adviceslip.com/advice/${generateRandomID()}`)
+        .then((req) => req.json())
+        .then((data) => setQuote(data.slip));
+    }, 200);
+  }
+
+  useEffect(() => {
+    fetch(`https://api.adviceslip.com/advice/${generateRandomID()}`)
+      .then((req) => req.json())
+      .then((data) => setQuote(data.slip));
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <main className="card">
+      <span id="advice-id">advice #{quote.id ? quote.id : 0}</span>
+      <p id="quote">
+        {quote.advice
+          ? `"${quote.advice}"`
+          : 'SOMETHING WENT WRANG PLEASE TRY AGAIN !!'}
+      </p>
+      <div className="divider"></div>
+      <button type="button" onClick={getAdvice}></button>
+    </main>
   );
 }
 

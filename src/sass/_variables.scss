@@ -1,0 +1,32 @@
+//reset
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+// font family
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@800&display=swap');
+
+// font size
+$font-size: 14px;
+
+// colors
+// Primary
+$Light-Cyan: hsl(193, 38%, 86%);
+$Neon-Green: hsl(150, 100%, 66%);
+// Neutral
+$Grayish-Blue: hsl(217, 19%, 38%);
+$Dark-Grayish-Blue: hsl(217, 19%, 24%);
+
+// animations
+@keyframes spin {
+  from {
+    transform: translate(-50%, -50%) rotate(0);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
