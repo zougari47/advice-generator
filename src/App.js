@@ -16,10 +16,6 @@ function App() {
     }, 1000);
   } catch (error) {}
 
-  function generateRandomID() {
-    return Math.floor(Math.random() * 243) + 1;
-  }
-
   function getAdvice() {
     // animation
     const btn = document.querySelector('button');
@@ -29,14 +25,18 @@ function App() {
       btn.classList.add('active');
 
       // get advice
-      fetch(`https://api.adviceslip.com/advice/${generateRandomID()}`)
+      fetch(`https://api.adviceslip.com/advice`, {
+        cache: 'no-cache'
+      })
         .then((req) => req.json())
         .then((data) => setQuote(data.slip));
     }, 200);
   }
 
   useEffect(() => {
-    fetch(`https://api.adviceslip.com/advice/${generateRandomID()}`)
+    fetch(`https://api.adviceslip.com/advice`, {
+      cache: 'no-cache'
+    })
       .then((req) => req.json())
       .then((data) => setQuote(data.slip));
   }, []);

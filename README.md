@@ -58,6 +58,16 @@ fetch(`https://api.adviceslip.com/advice/${generateRandomID()}`)
           } catch (err) {}
 ```
 
+After a while i learn => after the first fetch request, the quote and id gets cached, so I update my code like so
+
+```js
+fetch(`https://api.adviceslip.com/advice`, {
+  cache: 'no-cache'
+})
+  .then((req) => req.json())
+  .then((data) => setQuote(data.slip));
+```
+
 ## Author
 
 - Frontend Mentor - [@zougari47](https://www.frontendmentor.io/profile/zougari47)
