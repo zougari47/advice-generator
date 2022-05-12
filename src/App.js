@@ -1,56 +1,71 @@
 import { useEffect, useState } from 'react';
+import dividerSmall from './img/pattern-divider-mobile.svg';
+import dividerBig from './img/pattern-divider-desktop.svg';
+import dice from './img/icon-dice.svg';
 
 function App() {
-  //max advice = 244;
-  const [quote, setQuote] = useState({
-    id: 0,
-    advice: 'SOMETHING WENT WRANG PLEASE TRY AGAIN !!'
-  });
-  const p = document.querySelector('#quote') || '';
+  const [quote, setQuote] = useState({});
+  const [animate, setAnimate] = useState(false);
+  const [fade, setFade] = useState(false);
 
-  // animation paragraph
-  try {
-    p.classList.remove('fade');
-    setTimeout(function () {
-      p.classList.add('fade');
-    }, 1000);
-  } catch (error) {}
+  async function getAdvice() {
+    setAnimate(true);
 
-  function getAdvice() {
-    // animation
-    const btn = document.querySelector('button');
-    btn.classList.remove('active');
+    const response = await fetch('https://api.adviceslip.com/advice', {
+      cache: 'no-cache'
+    });
+    const result = await response.json();
+    console.log(result.slip);
+    setQuote({
+      id: result.slip.id,
+      advice: result.slip.advice
+    });
 
-    setTimeout(function () {
-      btn.classList.add('active');
-
-      // get advice
-      fetch(`https://api.adviceslip.com/advice`, {
-        cache: 'no-cache'
-      })
-        .then((req) => req.json())
-        .then((data) => setQuote(data.slip));
-    }, 200);
+    setFade(true);
   }
 
   useEffect(() => {
-    fetch(`https://api.adviceslip.com/advice`, {
-      cache: 'no-cache'
-    })
-      .then((req) => req.json())
-      .then((data) => setQuote(data.slip));
+    getAdvice();
   }, []);
 
+  const style = {
+    card: 'bg-dark w-[90%] max-w-[500px] text-center rounded-lg absolute top-2/4 left-2/4 transform -translate-x-1/2 -translate-y-1/2 p-4',
+    id: 'text-green block my-6',
+    advice: `${fade && 'animate-fade'} text-light text-3xl mb-6`,
+    divider: 'text-center mx-auto mb-3',
+    button:
+      'block bg-green rounded-full p-4 mx-auto relative top-10 hover:shadow-circle hover:shadow-green ease-in-out duration-300',
+    dice: animate && 'animate-spin'
+  };
+
   return (
-    <main className="card">
-      <span id="advice-id">advice #{quote.id ? quote.id : 0}</span>
-      <p id="quote">
-        {quote.advice
-          ? `"${quote.advice}"`
-          : 'SOMETHING WENT WRANG PLEASE TRY AGAIN !!'}
+    <main className={style.card}>
+      <span className={style.id}>advice #{quote.id}</span>
+      <p
+        id="quote"
+        className={style.advice}
+        onAnimationEnd={() => {
+          setFade(false);
+        }}
+      >
+        "{quote.advice}"
       </p>
-      <div className="divider"></div>
-      <button type="button" onClick={getAdvice}></button>
+      <img
+        src={dividerSmall}
+        srcSet={`${dividerSmall} 375w, ${dividerBig} 768w`}
+        className={style.divider}
+        alt=""
+      />
+      <button className={style.button} type="button" onClick={getAdvice}>
+        <img
+          className={style.dice}
+          onAnimationEnd={() => {
+            setAnimate(false);
+          }}
+          src={dice}
+          alt=""
+        />
+      </button>
     </main>
   );
 }
