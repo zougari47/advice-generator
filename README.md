@@ -36,9 +36,8 @@ Users should be able to:
 
 ### Built with
 
-- Mobile-first workflow
 - [React](https://reactjs.org/) - JS library
-- [SASS](https://sass-lang.com//) - CSS preprocessor
+- [tailwindCSS](https://tailwindcss.com) - CSS framework
 
 ### What I learned
 
