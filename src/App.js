@@ -29,7 +29,7 @@ function App() {
   }, []);
 
   const style = {
-    card: 'bg-dark w-[90%] max-w-[500px] text-center rounded-lg absolute top-1/2 left-1/2 transform translate-x-[50%] translate-y-[-50%] p-4',
+    card: 'bg-dark w-[90%] max-w-[500px] text-center rounded-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-4',
     id: 'text-green block my-6',
     advice: `${fade && 'animate-fade'} text-light text-3xl mb-6`,
     divider: 'text-center mx-auto mb-3',
